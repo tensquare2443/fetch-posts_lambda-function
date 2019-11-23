@@ -1,1 +1,2 @@
-AWS Lambda Function - fetches posts from a WP API
+**AWS Lambda Function**  
+fetches posts from a WP API
