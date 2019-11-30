@@ -6,7 +6,22 @@ exports.handler = async event => {
     "Access-Control-Allow-Origin": "*"
   };
 
-  return rp(`${wpSiteLocation}/wp-json/wp/v2/posts`)
+  const sortParamsHeader = event.headers["sort-params"];
+  const filterParamsHeader = event.headers["filter-params"];
+
+  if (sortParamsHeader) {
+    var sortParams = `?${sortParamsHeader}`;
+  } else sortParams = "";
+
+  if (filterParamsHeader) {
+    if (sortParamsHeader) {
+      var filterParams = `&${filterParamsHeader}`;
+    } else {
+      filterParams = `?${filterParamsHeader}`;
+    }
+  } else filterParams = "";
+
+  return rp(`${wpSiteLocation}/wp-json/wp/v2/posts${sortParams}${filterParams}`)
     .then(json => {
       const response = {
         statusCode: 200,
